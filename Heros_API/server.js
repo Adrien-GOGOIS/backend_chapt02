@@ -45,5 +45,31 @@ app.get("/heroes", (req, res) => {
   res.json(superHeros);
 });
 
+// Routes héros par name :
+app.get("/heroes/:name", (req, res) => {
+  const hero = superHeros.find((her) => {
+    return her.name === req.params.name;
+  });
+
+  res.json(hero);
+});
+
+// Routes super-pouvoirs :
+app.get("/heroes/:name/powers", (req, res) => {
+  const power = superHeros.find((hero) => {
+    return hero.name === req.params.name;
+  });
+
+  res.json(power.power);
+});
+
+// AJouter un nouveau héros :
+app.post("/heroes/", (req, res) => {
+  superHeros.push({
+    name: req.body.name,
+  });
+  res.send("Ok, héros ajouté");
+});
+
 // Démarrage serveur :
 app.listen(8000, () => console.log("Listening....."));
