@@ -96,11 +96,27 @@ function isNotPresent(req, res, next) {
   }
 }
 
+// Middleware check forme du POST ou PUT:
+function isConform(req, res, next) {
+  if (
+    req.body.hasOwnProperty("name") &&
+    req.body.hasOwnProperty("power") &&
+    req.body.hasOwnProperty("color") &&
+    req.body.hasOwnProperty("isAlive") &&
+    req.body.hasOwnProperty("age") &&
+    Array.isArray(req.body.power) &&
+    typeof req.body.isAlive === "boolean" &&
+    typeof req.body.age === "number"
+  ) {
+    next();
+  } else {
+    res.send("ERREUR DE FORMAT");
+  }
+}
+
 // AJouter un nouveau héros :
-app.post("/heroes/", transformName, isNotPresent, (req, res) => {
-  superHeros.push({
-    name: req.body.name,
-  });
+app.post("/heroes/", transformName, isNotPresent, isConform, (req, res) => {
+  superHeros.push(req.body);
   res.send("Ok, héros ajouté");
 });
 
@@ -147,7 +163,7 @@ app.delete(
 );
 
 // PUT un héros :
-app.put("/heroes/:name", transformName, isNotPresent, (req, res) => {
+app.put("/heroes/:name", transformName, isNotPresent, isConform, (req, res) => {
   let heros = superHeros.find((hero) => {
     return hero.name === req.params.name;
   });
