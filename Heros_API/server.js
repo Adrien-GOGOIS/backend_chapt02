@@ -63,8 +63,15 @@ app.get("/heroes/:name/powers", (req, res) => {
   res.json(power.power);
 });
 
+// Middleware transformName
+function transformName(req, res, next) {
+  req.body.name = req.body.name.toLowerCase();
+
+  next();
+}
+
 // AJouter un nouveau héros :
-app.post("/heroes/", (req, res) => {
+app.post("/heroes/", transformName, (req, res) => {
   superHeros.push({
     name: req.body.name,
   });
