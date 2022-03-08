@@ -4,18 +4,13 @@ const axios = require("axios");
 
 export default function Home() {
   const [student, setStudent] = useState();
-  const [studentsList, setStudentsList] = useState([]);
+  const [studentsList, setStudentsList] = useState();
 
   useEffect(() => {
-    axios
-      .get("http://localhost:8000/students")
-      .then((res) => {
-        studentsList.push(res.data);
-        // console.log("DATA", res.data);
-      })
-      .then(() => {
-        console.log(studentsList);
-      });
+    axios.get("http://localhost:8000/students").then((res) => {
+      const data = res.data;
+      setStudentsList(data);
+    });
   }, []);
 
   const onChange = (e) => {
@@ -30,13 +25,11 @@ export default function Home() {
     <>
       <h1>Liste des étudiants</h1>
 
-      {studentsList.length > 0 &&
-        studentsList.map((student) => {
-          <ul>
-            <li>{student[0].name}</li>
-          </ul>;
-        })}
-
+      {studentsList.map((student) => {
+        <ul>
+          <li>{studentsList.name}</li>
+        </ul>;
+      })}
       <form action="POST">
         <input type="text" onChange={onChange} />
         <button type="submit" onClick={onSubmit}>
