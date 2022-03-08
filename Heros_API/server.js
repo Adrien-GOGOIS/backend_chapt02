@@ -70,20 +70,38 @@ function transformName(req, res, next) {
   next();
 }
 
-// AJouter un nouveau héros :
-app.post("/heroes/", transformName, (req, res) => {
+// Middleware check si le héros existe
+function isPresent(req, res, next) {
+  const arr = superHeros.map((heros) => {
+    return heros.name.toLowerCase();
+  });
+
+  if (arr.indexOf(req.body.name) === -1) {
+    res.send("ERREUR, entrée invalide");
+  } else {
+    next();
+  }
+}
+
+// Middleware check si le héros n'existe pas
+function isNotPresent(req, res, next) {
   const arr = superHeros.map((heros) => {
     return heros.name.toLowerCase();
   });
 
   if (arr.indexOf(req.body.name) > -1) {
-    res.send("ERREUR: ce héros existe déjà");
+    res.send("ERREUR, entrée invalide");
   } else {
-    superHeros.push({
-      name: req.body.name,
-    });
-    res.send("Ok, héros ajouté");
+    next();
   }
+}
+
+// AJouter un nouveau héros :
+app.post("/heroes/", transformName, isNotPresent, (req, res) => {
+  superHeros.push({
+    name: req.body.name,
+  });
+  res.send("Ok, héros ajouté");
 });
 
 // Routes PATCH super-pouvoirs :
@@ -93,6 +111,18 @@ app.patch("/heroes/:name/powers", (req, res) => {
   });
   heros.power.push(req.body.power);
   res.send("Pouvoir ajouté !");
+});
+
+// Supprimer un héros :
+app.delete("/heroes/:name", transformName, isPresent, (req, res) => {
+  const heros = superHeros.find((hero) => {
+    return hero.name === req.params.name;
+  });
+
+  const index = superHeros.indexOf(heros);
+  superHeros.splice(index, 1);
+  console.log(superHeros);
+  res.send("Ok, " + heros.name + " supprimé");
 });
 
 // Démarrage serveur :
