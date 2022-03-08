@@ -147,11 +147,22 @@ app.delete(
 );
 
 // PUT un héros :
-app.put("/heroes/:name", transformName, isPresent, (req, res) => {
-  superHeros.push({
-    name: req.params.name,
+app.put("/heroes/:name", transformName, isNotPresent, (req, res) => {
+  let heros = superHeros.find((hero) => {
+    return hero.name === req.params.name;
   });
-  res.send("Ok, héros ajouté");
+
+  const index = superHeros.indexOf(heros);
+  console.log("Index", index);
+  superHeros[index] = {
+    name: req.body.name,
+    power: req.body.power,
+    color: req.body.color,
+    isAlive: req.body.isAlive,
+    age: req.body.age,
+  };
+  console.log(superHeros);
+  res.send("Ok, héros mis à jour");
 });
 
 // Démarrage serveur :
