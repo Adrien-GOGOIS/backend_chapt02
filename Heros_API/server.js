@@ -78,5 +78,14 @@ app.post("/heroes/", transformName, (req, res) => {
   res.send("Ok, héros ajouté");
 });
 
+// Routes PATCH super-pouvoirs :
+app.patch("/heroes/:name/powers", (req, res) => {
+  const heros = superHeros.find((hero) => {
+    return hero.name === req.params.name;
+  });
+  heros.power.push(req.body.power);
+  res.send("Pouvoir ajouté !");
+});
+
 // Démarrage serveur :
 app.listen(8000, () => console.log("Listening....."));
