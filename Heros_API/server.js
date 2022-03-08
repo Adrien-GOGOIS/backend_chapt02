@@ -125,5 +125,29 @@ app.delete("/heroes/:name", transformName, isPresent, (req, res) => {
   res.send("Ok, " + heros.name + " supprimé");
 });
 
+// Supprimer un pouvoir :
+app.delete(
+  "/heroes/:name/power/:power",
+  transformName,
+  isPresent,
+  (req, res) => {
+    const heros = superHeros.find((hero) => {
+      return hero.name === req.params.name;
+    });
+
+    const powers = heros.power;
+    const index = powers.indexOf(req.params.power);
+    powers.splice(index, 1);
+
+    console.log(powers);
+    // const index = superHeros.indexOf(heros);
+    // superHeros.splice(index, 1);
+    // console.log(superHeros);
+    res.send(
+      "Le pouvoir " + req.params.power + " de " + heros.name + " a été supprimé"
+    );
+  }
+);
+
 // Démarrage serveur :
 app.listen(8000, () => console.log("Listening....."));
