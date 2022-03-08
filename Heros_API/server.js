@@ -136,18 +136,23 @@ app.delete(
     });
 
     const powers = heros.power;
+
     const index = powers.indexOf(req.params.power);
     powers.splice(index, 1);
 
-    console.log(powers);
-    // const index = superHeros.indexOf(heros);
-    // superHeros.splice(index, 1);
-    // console.log(superHeros);
     res.send(
       "Le pouvoir " + req.params.power + " de " + heros.name + " a été supprimé"
     );
   }
 );
+
+// PUT un héros :
+app.put("/heroes/:name", transformName, isPresent, (req, res) => {
+  superHeros.push({
+    name: req.params.name,
+  });
+  res.send("Ok, héros ajouté");
+});
 
 // Démarrage serveur :
 app.listen(8000, () => console.log("Listening....."));
