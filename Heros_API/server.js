@@ -72,10 +72,18 @@ function transformName(req, res, next) {
 
 // AJouter un nouveau héros :
 app.post("/heroes/", transformName, (req, res) => {
-  superHeros.push({
-    name: req.body.name,
+  const arr = superHeros.map((heros) => {
+    return heros.name.toLowerCase();
   });
-  res.send("Ok, héros ajouté");
+
+  if (arr.indexOf(req.body.name) > -1) {
+    res.send("ERREUR: ce héros existe déjà");
+  } else {
+    superHeros.push({
+      name: req.body.name,
+    });
+    res.send("Ok, héros ajouté");
+  }
 });
 
 // Routes PATCH super-pouvoirs :
