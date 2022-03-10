@@ -30,6 +30,7 @@ app.get("/students", (req, res) => {
 
 // Post nouvel étudiant :
 app.post("/students/", (req, res) => {
+  console.log("Student to add", req.body.name);
   students.push({
     id: students.length + 1,
     name: req.body.name,
@@ -39,7 +40,9 @@ app.post("/students/", (req, res) => {
 
 // Supprimer un héros :
 app.delete("/students/", (req, res) => {
+  console.log("Student to delete", req.body.name);
   const student = students.find((stu) => {
+    // console.log("Student to delete", req.body.name)
     return stu.name === req.body.name;
   });
 

@@ -37,7 +37,7 @@ export default function Home() {
     console.log("Etudiant à supprimer", stud);
 
     axios.delete("http://localhost:8000/students", {
-      name: stud,
+      data: { name: stud },
     });
 
     setReload((prev) => !prev);
