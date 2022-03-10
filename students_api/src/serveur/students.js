@@ -37,6 +37,17 @@ app.post("/students/", (req, res) => {
   res.send(students);
 });
 
+// Supprimer un héros :
+app.delete("/students/", (req, res) => {
+  const student = students.find((stu) => {
+    return stu.name === req.body.name;
+  });
+
+  const index = students.indexOf(student);
+  students.splice(index, 1);
+  console.log(students);
+});
+
 // Démarrage serveur
 app.listen(8000, console.log("Listening......"));
 

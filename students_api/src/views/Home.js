@@ -31,6 +31,18 @@ export default function Home() {
     setReload((prev) => !prev);
   };
 
+  const onDelete = (e, stud) => {
+    e.preventDefault();
+
+    console.log("Etudiant à supprimer", stud);
+
+    axios.delete("http://localhost:8000/students", {
+      name: stud,
+    });
+
+    setReload((prev) => !prev);
+  };
+
   return (
     <>
       <h1>Liste des étudiants</h1>
@@ -44,7 +56,10 @@ export default function Home() {
         studentsList.map((stu) => {
           return (
             <ul>
-              <li>{stu.name}</li>
+              <li>
+                {stu.name} --
+                <button onClick={(e) => onDelete(e, stu.name)}>X</button>
+              </li>
             </ul>
           );
         })}
