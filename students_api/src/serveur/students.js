@@ -38,7 +38,7 @@ app.post("/students/", (req, res) => {
   res.send(students);
 });
 
-// Supprimer un héros :
+// Supprimer un étudiant :
 app.delete("/students/", (req, res) => {
   console.log("Student to delete", req.body.name);
   const student = students.find((stu) => {

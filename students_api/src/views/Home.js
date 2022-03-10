@@ -7,10 +7,12 @@ export default function Home() {
   const [studentsList, setStudentsList] = useState();
   const [reload, setReload] = useState(false);
 
+  // UseEffect
   useEffect(() => {
     fetchStudents();
   }, [reload]);
 
+  // Fonction fetch API
   const fetchStudents = async () => {
     await axios.get("http://localhost:8000/students").then((res) => {
       const data = res.data;
@@ -18,11 +20,13 @@ export default function Home() {
     });
   };
 
+  // Input
   const onChange = (e) => {
     setStudent(e.target.value);
     // console.log("INPUT", student);
   };
 
+  // Fonction ajout d'un étudiant à la liste
   const onSubmit = (e) => {
     e.preventDefault();
 
@@ -34,6 +38,7 @@ export default function Home() {
     setReload((prev) => !prev);
   };
 
+  // Fonction de suppression d'un étudiant :
   const onDelete = (stud) => {
     axios
       .delete("http://localhost:8000/students", {
@@ -44,20 +49,47 @@ export default function Home() {
 
   return (
     <>
-      <h1>Liste des étudiants</h1>
-      <form>
-        <input type="text" onChange={onChange} />
-        <button type="submit" onClick={onSubmit}>
+      <h1 style={{ fontWeight: "bold", fontSize: "50px", textAlign: "center" }}>
+        Liste des étudiants
+      </h1>
+      <form style={{ textAlign: "center" }}>
+        <input style={{ height: "15px" }} type="text" onChange={onChange} />
+        <button
+          style={{
+            margin: "10px",
+            padding: "5px",
+            borderRadius: "5px",
+            backgroundColor: "rgba(0, 150, 255, 0.8)",
+            fontWeight: "bold",
+          }}
+          type="submit"
+          onClick={onSubmit}
+        >
           SUBMIT
         </button>
       </form>
       {studentsList &&
         studentsList.map((stu) => {
           return (
-            <ul>
-              <li>
+            <ul style={{ textAlign: "center" }}>
+              <li
+                style={{
+                  fontWeight: "bold",
+                  listStyle: "none",
+                  fontSize: "25px",
+                }}
+              >
                 {stu.name} --
-                <button onClick={() => onDelete(stu.name)}>X</button>
+                <button
+                  style={{
+                    margin: "10px",
+                    padding: "5px",
+                    backgroundColor: "rgba(255, 50, 30, 0.7)",
+                  }}
+                  onClick={() => onDelete(stu.name)}
+                >
+                  X
+                </button>
               </li>
             </ul>
           );
