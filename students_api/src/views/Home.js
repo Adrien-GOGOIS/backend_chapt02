@@ -44,6 +44,9 @@ export default function Home() {
       data: { name: stud },
     });
 
+    const result = studentsList.filter((student) => student.name !== stud);
+    setStudentsList(result);
+
     setReload((prev) => !prev);
   };
 
