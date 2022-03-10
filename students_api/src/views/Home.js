@@ -40,11 +40,11 @@ export default function Home() {
 
   // Fonction de suppression d'un étudiant :
   const onDelete = (stud) => {
-    axios
-      .delete("http://localhost:8000/students", {
-        data: { name: stud },
-      })
-      .then(setReload((prev) => !prev));
+    axios.delete("http://localhost:8000/students", {
+      data: { name: stud },
+    });
+
+    setReload((prev) => !prev);
   };
 
   return (
@@ -82,8 +82,7 @@ export default function Home() {
                 {stu.name} --
                 <button
                   style={{
-                    margin: "10px",
-                    padding: "5px",
+                    margin: "2px 5px",
                     backgroundColor: "rgba(255, 50, 30, 0.7)",
                   }}
                   onClick={() => onDelete(stu.name)}
