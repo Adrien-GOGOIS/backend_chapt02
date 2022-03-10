@@ -30,7 +30,7 @@ app.get("/students", (req, res) => {
 
 // Post nouvel étudiant :
 app.post("/students/", (req, res) => {
-  console.log("Student to add", req.body.name);
+  // console.log("Student to add", req.body.name);
   students.push({
     id: students.length + 1,
     name: req.body.name,

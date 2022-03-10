@@ -8,12 +8,15 @@ export default function Home() {
   const [reload, setReload] = useState(false);
 
   useEffect(() => {
-    axios.get("http://localhost:8000/students").then((res) => {
+    fetchStudents();
+  }, [reload]);
+
+  const fetchStudents = async () => {
+    await axios.get("http://localhost:8000/students").then((res) => {
       const data = res.data;
       setStudentsList(data);
-      console.log("TEST axios", studentsList);
     });
-  }, [reload]);
+  };
 
   const onChange = (e) => {
     setStudent(e.target.value);
@@ -23,24 +26,22 @@ export default function Home() {
   const onSubmit = (e) => {
     e.preventDefault();
 
-    axios.post("http://localhost:8000/students", {
-      id: studentsList.length + 1,
-      name: student,
-    });
-
-    setReload((prev) => !prev);
+    axios
+      .post("http://localhost:8000/students", {
+        id: studentsList.length + 1,
+        name: student,
+      })
+      .then(setReload((prev) => !prev));
   };
 
   const onDelete = (e, stud) => {
     e.preventDefault();
 
-    console.log("Etudiant à supprimer", stud);
-
-    axios.delete("http://localhost:8000/students", {
-      data: { name: stud },
-    });
-
-    setReload((prev) => !prev);
+    axios
+      .delete("http://localhost:8000/students", {
+        data: { name: stud },
+      })
+      .then(setReload((prev) => !prev));
   };
 
   return (
