@@ -26,17 +26,15 @@ export default function Home() {
   const onSubmit = (e) => {
     e.preventDefault();
 
-    axios
-      .post("http://localhost:8000/students", {
-        id: studentsList.length + 1,
-        name: student,
-      })
-      .then(setReload((prev) => !prev));
+    axios.post("http://localhost:8000/students", {
+      id: studentsList.length + 1,
+      name: student,
+    });
+
+    setReload((prev) => !prev);
   };
 
-  const onDelete = (e, stud) => {
-    e.preventDefault();
-
+  const onDelete = (stud) => {
     axios
       .delete("http://localhost:8000/students", {
         data: { name: stud },
@@ -59,7 +57,7 @@ export default function Home() {
             <ul>
               <li>
                 {stu.name} --
-                <button onClick={(e) => onDelete(e, stu.name)}>X</button>
+                <button onClick={() => onDelete(stu.name)}>X</button>
               </li>
             </ul>
           );
